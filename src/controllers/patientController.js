@@ -107,8 +107,7 @@ exports.createPatient = catchAsync(async (req, res, next) => {
 });
 
 exports.getMe = catchAsync(async (req, res, next) => {
-  req.params.id = req.patient.id;
-  next();
+  return res.send({ patient: req.patient });
 });
 
 exports.getOne = catchAsync(async (req, res, next) => {

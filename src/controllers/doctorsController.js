@@ -53,3 +53,7 @@ exports.login = catchAsync(async (req, res, next) => {
     doctor,
   });
 });
+
+exports.getMe = catchAsync(async (req, res, next) => {
+  return res.send({ doctor: req.doctor });
+});

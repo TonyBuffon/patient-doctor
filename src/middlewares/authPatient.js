@@ -32,7 +32,9 @@ module.exports = catchAsync(async (req, res, next) => {
 
   // 3) Check if dcotor still exists
 
-  const currentPatient = await Patient.findById(decoded.id);
+  const currentPatient = await Patient.findById(decoded.id).populate([
+    "Doctors",
+  ]);
   if (!currentPatient) {
     return next(
       new AppError(

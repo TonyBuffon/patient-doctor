@@ -14,11 +14,6 @@ router.get("/", authDoctor, patientsController.getAll);
 router.get("/one/:id", authDoctor, patientsController.getOne);
 router.get("/search", authDoctor, patientsController.searchInPatients);
 
-router.get(
-  "/me",
-  authPatient,
-  patientsController.getMe,
-  patientsController.getOne
-);
+router.get("/me", authPatient, patientsController.getMe);
 
 module.exports = router;

@@ -54,8 +54,8 @@
       "post": {
         "description": "",
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           }
         },
         "requestBody": {
@@ -77,12 +77,31 @@
         }
       }
     },
+    "/api/v1/doctors/me": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/patients/login": {
       "post": {
         "description": "",
         "responses": {
-          "201": {
-            "description": "Created"
+          "200": {
+            "description": "OK"
           }
         },
         "requestBody": {
