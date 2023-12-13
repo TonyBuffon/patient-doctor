@@ -80,12 +80,12 @@ exports.createPatient = catchAsync(async (req, res, next) => {
     );
     return res.send({ patient: newPatient });
   }
-  if (!checkIfCreated.Doctors.contains(doctor.id)) {
-    checkIfCreated.Doctors.append(doctor.id);
-    checkIfCreated.medicalHistory.append(...medicalHistory);
-    checkIfCreated.diagnoses.append(...diagnoses);
-    checkIfCreated.notes.append(...notes);
-    checkIfCreated.drugs.append(...drugs);
+  if (!checkIfCreated.Doctors.includes(doctor.id)) {
+    checkIfCreated.Doctors.push(doctor.id);
+    checkIfCreated.medicalHistory.push(...medicalHistory);
+    checkIfCreated.diagnoses.push(...diagnoses);
+    checkIfCreated.notes.push(...notes);
+    checkIfCreated.drugs.push(...drugs);
     await checkIfCreated.save();
     await Doctors.findByIdAndUpdate(doctor.id, {
       Patients: [...doctor.Patients, checkIfCreated.id],
@@ -94,10 +94,10 @@ exports.createPatient = catchAsync(async (req, res, next) => {
 
     return res.send({ patient: checkIfCreated });
   } else {
-    checkIfCreated.medicalHistory.append(...medicalHistory);
-    checkIfCreated.diagnoses.append(...diagnoses);
-    checkIfCreated.notes.append(...notes);
-    checkIfCreated.drugs.append(...drugs);
+    checkIfCreated.medicalHistory.push(...medicalHistory);
+    checkIfCreated.diagnoses.push(...diagnoses);
+    checkIfCreated.notes.push(...notes);
+    checkIfCreated.drugs.push(...drugs);
     await checkIfCreated.save();
 
     await new Email(checkIfCreated, doctor.name).sendUpdate();
