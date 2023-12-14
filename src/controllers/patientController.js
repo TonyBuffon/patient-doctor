@@ -28,18 +28,21 @@ exports.searchInPatients = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new AppError("Please enter your email and your password", 400));
+  }
   const patient = await Patients.findOne({ email }).select("+password");
 
   if (!patient) {
     return next(
       new AppError(
         "Couldn't find patient with this email, please re-check or try signing up.",
-        401
+        400
       )
     );
   }
   if (!(await patient.checkPassword(password, patient.password))) {
-    return next(new AppError("Incorrect identifier or password", 401));
+    return next(new AppError("Incorrect identifier or password", 400));
   }
   delete patient.password;
   const token = signToken(patient.id);

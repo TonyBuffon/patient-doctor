@@ -19,8 +19,7 @@ exports.register = catchAsync(async (req, res, next) => {
   const newDoctor = await Doctors.create({
     name,
     email,
-    password,
-    Role: "doctor",
+    password
   });
   const token = signToken(newDoctor.id);
   delete newDoctor.password;
@@ -32,18 +31,20 @@ exports.register = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;
+  if (!email || !password) {
+    return next(new AppError("Please enter your email and your password", 400));
+  }
   const doctor = await Doctors.findOne({ email }).select("+password");
-
   if (!doctor) {
     return next(
       new AppError(
         "Couldn't find doctor with this email, please re-check or try signing up.",
-        401
+        400
       )
     );
   }
   if (!(await doctor.checkPassword(password, doctor.password))) {
-    return next(new AppError("Incorrect identifier or password", 401));
+    return next(new AppError("Incorrect identifier or password", 400));
   }
   delete doctor.password;
   const token = signToken(doctor.id);
